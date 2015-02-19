@@ -1,0 +1,61 @@
+Redundant Array of Inexpensive Disks(RAID):
+-------------------------------------------
+
+Features:
+
+ 1. Data spread across 2 or more disks/partitions
+ 2. Redundancy - recovery from catastrophy
+ 3. Levels: 0, 1, 4, 5, 6, 10
+
+Tasks:
+
+ 1. Create RAID0 (Striping)
+  a. Create 2 partitions: /dev/sdb{1,2}
+  b. 'init 6'
+  c. 'mdadm --create /dev/md0 --level=0 --raid-devices=2 /dev/sdb5 /dev/sdc5'
+  d. 'mkfs.ext4 /dev/md0'
+  e. 'mkdir /raid0 && mount /dev/md0 /raid0'
+  f. Update the '/etc/fstab'
+  g. mdadm --detail /dev/md0
+  h. mdadm --query /dev/md0
+  i. cat /proc/mdstat
+ NOTE: We can't add spare divices to RAID0
+  
+ 2. Create RAID1 (Mirroring)
+  a. Create 3 partitions: /dev/sdb{3,5,6} ( 2 Devices for the RAID and the other for RAID spare )
+  b. 'init 6'
+  c. 'mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sdb3 /dev/sdb5'
+  d. 'mkfs.ext4 /dev/md1'
+  e. 'mkdir /raid1 && mount /dev/md1 /raid1'
+  f. Update the '/etc/fstab'
+  g. mdadm --detail /dev/md1
+  h. mdadm --query /dev/md1
+  i. cat /proc/mdstat
+  j. Add a spare disk to RAID1
+    mdadm --manage /dev/md1 --add /dev/sdb6
+  k. cat /proc/mdstat
+  l. mdadm --detail /dev/md1
+  m. Fail a device or make it faulty
+    mdadm --manage /dev/md1 --fail /dev/sdb5
+    mdadm --manage /dev/md1 --remove /dev/md5
+
+  
+ 3. Create RAID5 (Striping with Distributed parity)
+  a. Create 4 partitions: /dev/sdb{7,8,9,10} ( 3 Devices for the RAID and the other for RAID spare )
+  b. 'init 6'
+  c. 'mdadm --create /dev/md5 --level=5 --raid-devices=3 /dev/sdb7 /dev/sdb8 /dev/sdb9'
+  d. 'mkfs.ext4 /dev/md5'
+  e. 'mkdir /raid5 && mount /dev/md5 /raid5'
+  f. Update the '/etc/fstab'
+  g. mdadm --detail /dev/md5
+  h. mdadm --query /dev/md5
+  i. cat /proc/mdstat
+  j. Add a spare device to /dev/md5
+	mdadm --manage /dev/md5 --add /dev/sdb10
+  k. mdadm --detail /dev/md5
+  l. mdadm --query /dev/md5
+  m. cat /proc/mdstat
+  n. Fail a device and check the mdstat to notice the spare device get into the pool and syncs with the data.
+	mdadm --manage /dev/md5 --fail /dev/sdb9
+  o. cat /proc/mdstat
+  p. mdadm --manage /dev/md5 --remove /dev/sdb9
