@@ -1,0 +1,79 @@
+In RHEL or CentOS we have several ways for configuring a installation repository where we store our packages.
+By the use of this repository we can easily install the packages which will be installed along with their depandencies.
+We have several ways of configuring a repository. Below are some popular ways explained.
+
+  1. Configure a manual or File mode repository with "createrepo"
+    a. Create a directory under /var and copy all your packages(.rpm files) to that directory.
+      # mkdir /var/yum && cp -prv /media/<Your_DVD>/Packages/* /var/yum/
+    b. Install the "createrepo" package using rpm
+      # cd /var/yum
+      # rpm -ivh createrepo*
+    
+    NOTE : If you notice any dependency failure then go ahead and install those packages first.
+      | error: Failed dependencies:                                 |
+      | deltarpm is needed by createrepo-0.9.8-4.el6.noarch         |
+      | python-deltarpm is needed by createrepo-0.9.8-4.el6.noarch  |
+    
+    c. Now configure the Repository
+      # createrepo /var/yum
+    d. Create a repo config file which will be looked at when we search for or try to install any packages.
+      # cd /etc/yum.repos.d
+      # vi local.repo
+          [localrepo]
+          Name=CentOS local repository
+          baseurl=file:///var/ftp/pub/dvd/CentOS/Packages/
+          enabled=1
+          gpgcheck=0
+
+    e. Now clean the yum database and try to list the details of the repository.
+      # yum clean all
+          Loaded plugins: fastestmirror, refresh-packagekit, security
+          Cleaning repos: localrepo
+          Cleaning up Everything
+          Cleaning up list of fastest mirrors     
+
+      # yum repolist all  ----> This will list out all our repositories and their status
+          Loaded plugins: fastestmirror, refresh-packagekit, security
+          Determining fastest mirrors
+          localrepo                                                                                                                                   | 2.9 kB     00:00 ...
+          localrepo/primary_db                                                                                                                        | 2.8 MB     00:00 ...
+          repo id               repo name                         status
+          InstallMedia          Red Hat Enterprise Linux 6.0      disabled
+          localrepo             CentOS local repository           enabled: 3,271
+          repolist: 3,271 
+
+    f. Now you will be able to install any packages.
+    
+  2. Configure FTP mode repository.
+    a. For configuring a repository which can be used through the FTP mode we need to have configured the below pre-requisites
+      i.    IP configured for the machine we are using.
+      ii.   VSFTPD service installed
+    b. Create a directory at "/var/ftp/pub" and copy all the contents of your DVD to that directory.
+      # mkdir -p /var/ftp/pub/dvd && cp -prv /media/<CentOS/RHEL_DVD>/* /var/ftp/pub/dvd/
+    c. Create a repo config file as below
+      # cd /etc/yum.repos.d/
+      # vi ftp.repo
+          [ftprepo]
+          Name=CentOS FTP repository
+          baseurl=file:///var/ftp/pub/dvd/CentOS/Packages
+          enabled=1
+          gpgcheck=0
+    d. Clean the yum database and query for the newly configured yum repository
+      # yum clean all
+          Loaded plugins: fastestmirror, refresh-packagekit, security
+          Cleaning repos: ftprepo
+          Cleaning up Everything
+          Cleaning up list of fastest mirrors
+
+      # yum repolist all
+          Loaded plugins: fastestmirror, refresh-packagekit, security
+          Determining fastest mirrors
+          ftprepo                                                                                                                                     | 2.9 kB     00:00 ...
+          ftprepo/primary_db                                                                                                                          | 2.8 MB     00:00 ...
+          localrepo                                                                                                                                   | 2.9 kB     00:00 ...
+          localrepo/primary_db                                                                                                                        | 2.8 MB     00:00 ...
+          repo id             repo name                         status
+          InstallMedia        Red Hat Enterprise Linux 6.0      disabled
+          ftprepo             CentOS FTP repository             enabled: 3,271
+          localrepo           CentOS local repository           enabled: 3,271
+          repolist: 6,542
