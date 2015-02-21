@@ -1,0 +1,26 @@
+Features:
+  1. Generates additional virtual memory
+  2. Temporary fix for RAM-Shortage. Permanent fix is to add more RAM.
+  3. Requires no system downtime.
+  4. Works with dedicated partitions.
+  5. Works with existing file systems.
+  6. Works accross disks, consequently improving performance.
+
+Tasks:
+  1. Define swap partition and provision
+    a. 'fdisk /dev/sdb'
+      ( Define a new partition and change the partition to 82 i.e., Linux swap )
+    b. 'mkswap /dev/sdb2' ( The newly created partition )
+    Note: If necessary reboot the system after using fdisk or parted.
+    c. Add a new entry in /etc/fstab for the new swap file.
+    d. 'swapon -s' displays all current swap devices.
+    e. 'swapon -a' turns all the listed swap devices.
+    f. 'swapon -v /dev/sdb3' Verbosely turns on the swap device.
+    g. 'swapoff /dev/sdb3' disables the swap device.
+
+  2. Define swap storage on existing file system.
+    a. 'dd if=/dev/zero of=/swapfile1G bs=1024 count=1048576' (1024x1024=1048576) Creates 1G file That we can overlay a swap file system on of size : 1G
+    b. 'mkswap /swapfile1G'
+    c. 'swapon -v /swapfile1G'
+    d. Add an entry in the /etc/fstab for permanent mounting
+    e. 'swapon -a'
