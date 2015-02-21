@@ -1,0 +1,83 @@
+RedHat Package Management (RPM) :
+---------------------------------
+
+The RPM utility is used in RedHat Linux to install, update and remove packages or any applications
+on a linux machine.
+
+Usage:
+------
+
+Usage: rpm [OPTION...]
+  --quiet
+
+Query/Verify package selection options:
+  -a, --all                        query/verify all packages
+  -f, --file                       query/verify package(s) owning file
+  -g, --group                      query/verify package(s) in group
+  -p, --package                    query/verify a package file
+  -W, --ftswalk                    query/verify package(s) from TOP file tree walk
+
+Query options (with -q or --query):
+  -c, --configfiles                list all configuration files
+  -d, --docfiles                   list all documentation files
+  --dump                           dump basic file information
+  -l, --list                       list files in package
+  --queryformat=QUERYFORMAT        use the following query format
+  -s, --state                      display the states of the listed files
+
+Signature options:
+  -K, --checksig                   verify package signature(s)
+
+Database options:
+  --initdb                         initialize database
+  --rebuilddb                      rebuild database inverted lists from installed package headers
+
+Install/Upgrade/Erase options:
+  -e, --erase=<package>+           erase (uninstall) package
+  -F, --freshen=<packagefile>+     upgrade package(s) if already installed
+  -h, --hash                       print hash marks as package installs (good with -v)
+  -i, --install                    install package(s)
+  -U, --upgrade=<packagefile>+     upgrade package(s)
+
+Common options for all rpm modes and executables:
+  -D, --define='MACRO EXPR'        define MACRO with value EXPR
+  -E, --eval='EXPR'                print macro expansion of EXPR
+  -r, --root=ROOT                  use ROOT as top level directory (default: "/")
+  -v, --verbose                    provide more detailed output
+
+Help options:
+  -?, --help                       Show this help message
+  --usage                          Display brief usage message
+
+
+TASKS:
+------
+
+1. Query
+a. 'rpm -qa' - dumps all installed packages
+b. 'rpm -qi grep' - queries the complete information of the package
+c. 'rpm -ql grep' - enumerates the contents of the package 'grep'
+d. 'rpm -qf /bin/grep' - enumerates the file's package membership
+e. 'rpm -qd grep' - enumerates the included documentation
+f. 'rpm -qc grep' - enumerates the package's configuration file(s)
+g. 'rpm -qpi unix2dos-2.2-35.el6.i686.rpm'
+
+2. Verify - verifies file systems contents against installed package in RPM DB
+Note: Returns: '.' per test performed if the test passed
+Note: If test fails one of the following will be returned
+5(MD5), S(file Size), L(Symlink), T(mod time), D(device), M(mode), ?(unreadable file), U(user), G(group)
+a. 'rpm -Vvf /bin/grep' - compares: /bin/grep to 'grep' RPM
+b. 'mv /bin/grep /bin/grep.original&& touch /bin/grep' - SM5....T.
+
+3. Install
+a. 'rpm -ivh unix2dox-3.1-37.el6.i686.rpm'
+
+4. Upgrade - Installs and/or upgrades
+a. 'rpm -Uvh dos2unix-3.1-37.el6.i686.rpm'
+b. 'rpm -Uvh --replacepkgs grep-2.6.3-2.el6.i686.rpm'
+
+5. Uninstall
+a. 'rpm -e grep' - checks dependencies and warns where appropriate
+
+6. Import RedHat RPM GPG Key to confirm package signatures:
+a. 'rpm --import'
