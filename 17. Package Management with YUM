@@ -55,7 +55,7 @@ We have several ways of configuring a repository. Below are some popular ways ex
       # vi ftp.repo
           [ftprepo]
           Name=CentOS FTP repository
-          baseurl=file:///var/ftp/pub/dvd/CentOS/Packages
+          baseurl=ftp://192.168.1.120/pub/dvd/CentOS/Packages/
           enabled=1
           gpgcheck=0
     d. Clean the yum database and query for the newly configured yum repository
