@@ -1,0 +1,73 @@
+ACL (Access Control Lists) : 
+----------------------------
+
+ACL is a utility for managing advanced level permissions on a file or dir
+It has two modes
+ 1. To display the permissions of a file or directory 	---> getfacl
+ 2. To set the permissions of a file or directory 		---> setfacl
+	In this mode we have two other modes
+	 a. Set or modify permissions	---> (Option -m)
+	 b. Remove permissions			---> (Option -x)
+
+Task 1 : At first we need to enable ACL on the partition which we need to configure.
+	We want to enable ACL for "/" filesystem
+	Step 1 : 
+		# vi /etc/fstab
+			Find the entry for the "/" filesystem and add ",acl" after defaults as like below.
+		Before : UUID=9dbab158-e9c1-401e-b819-9a26cb5bc82a /                       ext4    defaults        1 1
+		After  : UUID=9dbab158-e9c1-401e-b819-9a26cb5bc82a /                       ext4    defaults,acl        1 1
+		Save and quit the file.
+		
+	Step 2 :
+		Remount the filesystem for the changes to be effected
+		# mount -o remount,rw /
+		
+	Now we have done with enabling ACL on "/" filesystem.
+
+Task 2 : Modify or remove perms on Files or directories
+	Ensure to have 2 users (Ex. arjun, omkar)
+	Created a directory under "/" filesystem (ex. kits)
+	Login with omkar and create a text file and provide full permissions.
+	Login with arjun and create a directory and provide full permissions.
+	
+	Requirements : 
+	 1. Arjun should not be able to access the file created by omkar.
+	   a. Know the ACL perms for the file created by omkar
+		# getfacl acltest.txt
+	   b. Now set the permissions on the file to restrict access to arjun
+	    # setfacl -m u:arjun:--- acltest.txt
+	   c. Recheck the permissions again
+	    # getfacl acltest.txt
+		
+	 2. Omkar should not be able to access the dir created by arjun.
+	   a. Know the ACL perms for the dir created by arjun
+		# getfacl acltestdir
+	   b. Now set the permissions on the dir to restrict access to omkar
+	    # setfacl -m u:omkar:--- acltestdir
+	   c. Recheck the permissions again
+	    # getfacl acltestdir
+		
+	 3. Create a group and add arjun, omkar to that group. Provide full permissions for everyone(User, Group, Others). This group should only able to access the file (provide perms through ACL)
+	    a. Create group "aclgroup" and add arjun, omkar to it
+		 # groupadd aclgroup
+		 # usermod -G aclgroup arjun
+		 # usermod -G aclgroup omkar
+		b. Provide full permissions for everyone(User, Group, Others)
+		 # chmod 666 acltest.txt
+		c. Provide permissions for the group to have read and write perms on it.
+		 # getfacl acltest.txt
+		 # setfacl -m g:aclgroup:rw- acltest.txt
+		 Remove the ACL perms set earlier for user arjun
+		 # setfacl -x u:arjun acltest.txt
+		d. Restrict access for others.
+		 # getfacl acltest.txt
+		 # setfacl -m o:--- acltest.txt
+		 Create a new user (ex. nivas) and try to access the file with user nivas
+	 
+	 4. Add nivas to aclgroup and restrict access for him.
+		a. Add nivas to aclgroup
+		 # usermod -G aclgroup nivas
+		b. Try to access the file as nivas and ensure that he is able to access
+		c. Restrict access for nivas
+		 # getfacl acltest.txt
+		 # setfacl -m u:nivas:--- acltest.txt
