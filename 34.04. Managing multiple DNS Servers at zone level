@@ -10,7 +10,7 @@
 
 IP Details of the sites : 
 -------------------------
-192.168.1.110	:	linux-library.com			dev1.linux-library.com
+192.168.1.110	:	linux-library.com		dev1.linux-library.com
 192.168.1.120	:	asia.linux-library.com		prod01.linux-library.com
 192.168.1.121	:	india.linux-library.com		rnd01.linux-library.com
 192.168.1.122	:	brm.linux-library.com		prod02.linux-library.com
@@ -43,18 +43,18 @@ Below i am just mentioning only some Record Types which are used for me in this 
 !!!!!!!!!!!!!!!!!!!!
 ! RESOURCE RECORDS !
 !!!!!!!!!!!!!!!!!!!!
-TYPE	:	DESCRIPTION				:	FUNCTION
+TYPE	:	DESCRIPTION		:	FUNCTION
 ---------------------------------------------------------------------------------------------------
-A 		:	Address record			:	Returns a 32-bit IPv4 address, most commonly used to map hostnames to an IP address of the host, 
-									:		but it is also used for DNSBLs, storing subnet masks in RFC 1101, etc.
-AAAA	:	IPv6 address record		:	Returns a 128-bit IPv6 address, most commonly used to map hostnames to an IP address of the host.
+A 	:	Address record		:	Returns a 32-bit IPv4 address, most commonly used to map hostnames to an IP address of the host, 
+					:		but it is also used for DNSBLs, storing subnet masks in RFC 1101, etc.
+AAAA	:	IPv6 address record	:	Returns a 128-bit IPv6 address, most commonly used to map hostnames to an IP address of the host.
 CNAME	:	Canonical name record	: 	Alias of one name to another: the DNS lookup will continue by retrying the lookup with the new name.
-MX		:	Mail exchange record	:	Maps a domain name to a list of message transfer agents for that domain
-NS 		:	Name server record		:	Delegates a DNS zone to use the given authoritative name servers
-PTR		:	Pointer record			:	Pointer to a canonical name. Unlike a CNAME, DNS processing stops and just the name is returned. 
-									:		The most common use is for implementing reverse DNS lookups, but other uses include such things as DNS-SD.
+MX	:	Mail exchange record	:	Maps a domain name to a list of message transfer agents for that domain
+NS 	:	Name server record	:	Delegates a DNS zone to use the given authoritative name servers
+PTR	:	Pointer record		:	Pointer to a canonical name. Unlike a CNAME, DNS processing stops and just the name is returned. 
+					:		The most common use is for implementing reverse DNS lookups, but other uses include such things as DNS-SD.
 SOA 	:	Start of [a zone of] 	:	Specifies authoritative information about a DNS zone, including the primary name server, 
-				authority record	:		the email of the domain administrator, the domain serial number, and several timers relating to refreshing the zone.
+		authority record	:		the email of the domain administrator, the domain serial number, and several timers relating to refreshing the zone.
 
 				
 $$$$$$$$
@@ -119,7 +119,7 @@ Below is the list of configs to do to complete $1.
 		
 		# vi /var/named/chroot/etc/named.conf
 		listen-on port 53 { 127.0.0.1; 192.168.1.110; }; 	---> Provide the Parent domain "linux-library.com". My IP is "192.168.1.110"
-		allow-query     { any; };							---> Replace localhost with any.
+		allow-query     { any; };				---> Replace localhost with any.
 		
 		Add a zone section as below which provides the details of the forward lookup zone file.
 			zone "linux-library.com" IN {
@@ -161,11 +161,11 @@ Below is the list of configs to do to complete $1.
 		# vi /var/named/chroot/var/named/linux-library.com.reverse.zone
 			$TTL 1D
 			@       IN SOA  linux-library.com. root.linux-library.com. (
-													2015092901      ; serial
-													1D      ; refresh
-													1H      ; retry
-													1W      ; expire
-													3H )    ; minimum
+								2015092901      ; serial
+								1D      ; refresh
+								1H      ; retry
+								1W      ; expire
+								3H )    ; minimum
 			@               NS      dev1.linux-library.com.
 							A       127.0.0.1
 							PTR     localhost.
