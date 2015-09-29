@@ -1,0 +1,188 @@
+############################################
+# DNS ()DOMAIN NAMING SYSTEM (or) SERVICE) #
+############################################
+
+????????
+? GOAL ?
+????????
+
+-->	Multi level domain architechture for "linux-library.com"
+
+IP Details of the sites : 
+-------------------------
+192.168.1.110	:	linux-library.com			dev1.linux-library.com
+192.168.1.120	:	asia.linux-library.com		prod01.linux-library.com
+192.168.1.121	:	india.linux-library.com		rnd01.linux-library.com
+192.168.1.122	:	brm.linux-library.com		prod02.linux-library.com
+192.168.1.130	:	us.linux-library.com		cops01.linux-library.com
+192.168.1.140	:	uk.linux-library.com		cops02.linux-library.com
+192.168.1.150	:	aus.linux-library.com		mfg01.linux-library.com
+
+
+Notes:
+------
+Here one of the most important thing we need to know is if we are trying to look for the domain "linux-library.com" it actually looks for "linux-library.com."
+The dot after "com" is know as the root. Even we are not typing this dot it will automatically look for the domain along with the root means "."
+This dot is very important as this is the place where every domain begins. As if we compare it with filesystem for understanding this is equal to the root filesystem "/".
+
+
+************************
+* TYPE OF NAME SERVERS *
+************************
+
+00. RESOLVING NAME SERVER
+01. ROOT NAME SERVER
+02. TLD (TOP LEVEL DOMAIN) NAME SERVER 
+		Ex. .com, .org, .net, .edu, .in, etc.(In our case it is ".com")
+03. AUTHORITATIVE NAME SERVERS
+		Ex. The word before the TLD. In our case "linux-library"
+
+Before preparing a domain let us know one of the most important thing in DNS which is Record Types.
+Below i am just mentioning only some Record Types which are used for me in this case.
+
+!!!!!!!!!!!!!!!!!!!!
+! RESOURCE RECORDS !
+!!!!!!!!!!!!!!!!!!!!
+TYPE	:	DESCRIPTION				:	FUNCTION
+---------------------------------------------------------------------------------------------------
+A 		:	Address record			:	Returns a 32-bit IPv4 address, most commonly used to map hostnames to an IP address of the host, 
+									:		but it is also used for DNSBLs, storing subnet masks in RFC 1101, etc.
+AAAA	:	IPv6 address record		:	Returns a 128-bit IPv6 address, most commonly used to map hostnames to an IP address of the host.
+CNAME	:	Canonical name record	: 	Alias of one name to another: the DNS lookup will continue by retrying the lookup with the new name.
+MX		:	Mail exchange record	:	Maps a domain name to a list of message transfer agents for that domain
+NS 		:	Name server record		:	Delegates a DNS zone to use the given authoritative name servers
+PTR		:	Pointer record			:	Pointer to a canonical name. Unlike a CNAME, DNS processing stops and just the name is returned. 
+									:		The most common use is for implementing reverse DNS lookups, but other uses include such things as DNS-SD.
+SOA 	:	Start of [a zone of] 	:	Specifies authoritative information about a DNS zone, including the primary name server, 
+				authority record	:		the email of the domain administrator, the domain serial number, and several timers relating to refreshing the zone.
+
+				
+$$$$$$$$
+$ TASK $
+$$$$$$$$
+@!	:	Assume we have a main parent domain "linux-library.com". Also we have some child domains in "Asia, US, UK, Australia"
+$0	:	Get your machine ready with all the packages needed.
+	$0.00	:	Verify all the packages installed.
+$1	:	Create a the parent domain, its zones both Forward(FWD) and Reverse(REV).
+	$1.01	:	Verify and ensure that the parent domain resolution.
+$2	:	Create the child domain "asia" with its zones both FWD & REV.
+	$2.01	:	Verify and ensure that the above child domain resolution.
+$3	:	Create the child domain "us"  with its zones both FWD & REV.
+	$3.01	:	Verify and ensure that the above child domain resolution.
+$4	:	Create the child domain "uk" with its zones both FWD & REV.
+	$4.01	:	Verify and ensure that the above child domain resolution.
+$5	:	Create the child domain "aus" with its zones both FWD & REV.
+	$5.01	:	Verify and ensure that the above child domain resolution.
+
+
+
+©©©©©©©©©©©©©©©©©©©©©©©©©©©©©
+© $0 : Configuring packages ©
+©©©©©©©©©©©©©©©©©©©©©©©©©©©©©
+==================================================================================
+$0. Let us install the packages which are necessary for DNS. Below are the required packages.
+	P1. bind-9.7.3-2.el6.i686
+	P2. bind-utils-9.7.3-2.el6.i686
+	P3. bind-dyndb-ldap-0.2.0-1.el6.i686
+	P4. bind-chroot-9.7.3-2.el6.i686
+	P5. bind-libs-9.7.3-2.el6.i686bind-libs 
+	
+	# yum install bind* -y
+	
+	$0.00. Check whether the packages installed properly or not.
+		
+		# rpm -qa | grep ^bind
+==================================================================================
+		
+
+©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©
+© $1 : Configure Parent Domain  ©
+©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©
+==================================================================================
+Let us configure our Parent Domain i.e., "linux-library.com" for our Task #1 ($1).
+Below is the list of configs to do to complete $1.
+©1. Copy the files which starts with "named" from /etc to /var/named/chroot/etc/
+	Next copy all the contents of /var/named to /var/named/chroot/var/named/
+	This is because i need to maintain all the config files in /var/named/chroot
+	to provide security from Hackers.
+	
+	# cp -prv /etc/named* /var/named/chroot/etc/
+	# cd /var/named
+	# tar -cvf named.tar . 
+	# mv named.tar /var/named/chroot/var/named/ 
+	# cd /var/named/chroot/var/named/
+	# tar -xvf named.tar 
+	# rm -rf chroot
+==================================================================================
+©2. Edit /var/named/chroot/etc/named.conf (DNS Configuration main file) to add the IP of your parent domain and create a zone with in the file contains details of the parent domain.
+		Go to the "options" section, locate the following lines 
+		
+		# vi /var/named/chroot/etc/named.conf
+		listen-on port 53 { 127.0.0.1; 192.168.1.110; }; 	---> Provide the Parent domain "linux-library.com". My IP is "192.168.1.110"
+		allow-query     { any; };							---> Replace localhost with any.
+		
+		Add a zone section as below which provides the details of the forward lookup zone file.
+			zone "linux-library.com" IN {
+				type master;
+				file "linux-library.com.forward.zone";
+				allow-update { none; };
+			};
+			
+		Add a zone section as below which provides the details of the reverse lookup zone file.
+			zone "1.168.192.in-addr.arpa" IN {
+				type master;
+				file "linux-library.com.reverse.zone";
+				allow-update { none; };
+			};
+==================================================================================
+©3. Create forward lookup zone file and add the details of the parent domain.
+		Go to /var/named/chroot/var/named/ and make a copy of "named.localhost" to our forward lookup zone file "linux-library.com.forward.zone"
+		and modify that as per our choice.
+		
+		# cp -prv /var/named/chroot/var/named/named.localhost /var/named/chroot/var/named/linux-library.com.forward.zone
+		# vi /var/named/chroot/var/named/linux-library.com.forward.zone
+			$TTL 1D
+			$TTL 1D
+			@       IN SOA   linux-library.com. root.linux-library.com. (
+			                                        2015092901      ; serial	---> Date followed by a 2 digit number which represents the version of zone file
+			                                        1D      ; refresh
+			                                        1H      ; retry
+			                                        1W      ; expire
+			                                        3H )    ; minimum
+			@               NS      dev1.linux-library.com.
+			        IN      A       127.0.0.1
+			dev1    IN      A       192.168.1.110
+==================================================================================
+©4. Create reverse lookup zone file and add the details of the parent domain.
+		Go to /var/named/chroot/var/named/ and make a copy of "named.loopback" to our forward lookup zone file "linux-library.com.reverse.zone"
+		and modify that as per our choice.
+		
+		# cp -prv /var/named/chroot/var/named/named.loopback /var/named/chroot/var/named/linux-library.com.reverse.zone
+		# vi /var/named/chroot/var/named/linux-library.com.reverse.zone
+			$TTL 1D
+			@       IN SOA  linux-library.com. root.linux-library.com. (
+													2015092901      ; serial
+													1D      ; refresh
+													1H      ; retry
+													1W      ; expire
+													3H )    ; minimum
+			@               NS      dev1.linux-library.com.
+							A       127.0.0.1
+							PTR     localhost.
+			110             PTR     dev1.
+==================================================================================
+
+
+
+
+
+
+----------------------------------------
+Explanation of symbols used in this doc.
+#	-	Main heading
+?	-	Our goal
+*	-	Important to know
+!	-	Information for our reference
+$	-	Task to do
+P	-	Package
+©	-	Configuration
