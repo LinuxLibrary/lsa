@@ -1,0 +1,131 @@
+User Management :
+-----------------
+Command Help:
+Usage: useradd [options] username
+Options:
+  -b, --base-dir BASE_DIR       base directory for the home directory of the new account
+  -c							Users display name in GUI
+  -d, --home-dir HOME_DIR       home directory of the new account (use along with "-m" option to create the directory specified if not exists.)
+  -e, --expiredate EXPIRE_DATE  expiration date of the new account
+  -f, --inactive INACTIVE       password inactivity period of the new account account
+  -G, --groups GROUPS           list of supplementary groups of the new account faillog databases
+  -M, --no-create-home          do not create the user's home directory
+  -N, --no-user-group           do not create a group with the same name as the user
+  -s, --shell SHELL             login shell of the new account
+								1. /bin/sh
+								2. /bin/bash
+								3. /bin/csh
+								4. /bin/tcsh
+								5. /sbin/nologin (To restrict or to deny access to any interactive shell)
+
+ 1. Create a group named sysadmin
+	Create a user saara who belongs to sysadmin as a secondary group.
+	Create a user Natasha who also belongs to sysadmin as a secondary group.
+	Create a user harry who does not have access to an interactive shell on the system, and who is not a member of sysadmin.
+	Saara, Natasha and harry should all have the password of avaster
+	
+	Solution:
+	# groupadd sysadmin
+	# useradd -G sysadmin saara
+	# useradd -G sysadmin natasha
+	# useradd -s /sbin/nogin harry
+	# echo "avaster" | passwd --stdin saara
+
+User Creation :
+Groups : 	admin, sales, prod, rmhld, manfcg, itops, cops, distb
+
+GrpName			Comment				GRP Dir					Users						User's home DIR
+--------------------------------------------------------------------------------------------------------------------
+PART-1
+------
+admin	-->		Admin				-->		/home/admin		-->		arjun, omkar				-->		/home/admin/{arjun,omkar}
+sales	--> 	Sales		 		--> 	/home/sales		--> 	vijay, prashant			--> 	/home/sales/{vijay,prashant}
+prod	-->		Production	-->		/home/prod		-->		prajet, nikhil			-->		/home/prod/{prajet,nikhil}
+rmhld	-->		RMHld				-->		/home/rmhld		-->		deepak, john				-->		/home/rmhld/(deepak,john)
+
+1. Create the users specified above with default settings
+2. Create password for the users
+3. Create the above groups
+4. Create the GRP directories
+5. Change the group membership of the directories to the name same as the directory (Ex. admin directory to admin group)
+	Change the permissions of the directories to Group and Others
+	Group should have full permissions and the others do not have any permissions.
+6. Change the user's Group ID, Group Name, Comment and the Home Directory of the users to their respective values specified above.
+7. Copy all the files from /etc/skel/ to user's home dir
+8. Verify the users home directory, permissions and ownership by login as the specified user.
+9. Verify the users in all the above groups
+10. Verify all the attributes for the above users.
+
+Solutions:
+----------
+1. Create the users specified above with default settings
+	# useradd arjun
+	# useradd omkar
+	# useradd vijay
+	# useradd prashant
+	# useradd prajet
+	# useradd nikhil
+	# useradd deepak
+	# useradd sundeep
+2. Create password for the users
+	# echo "redhat" | passwd --stdin arjun
+	# echo "redhat" | passwd --stdin omkar
+	# echo "redhat" | passwd --stdin vijay
+	# echo "redhat" | passwd --stdin prashant
+	# echo "redhat" | passwd --stdin prajet
+	# echo "redhat" | passwd --stdin nikhil
+	# echo "redhat" | passwd --stdin deepak
+	# echo "redhat" | passwd --stdin john
+3. Create Groups
+	# groupadd admin
+	# groupadd sales
+	# groupadd prod
+	# groupadd rmhld
+4. Create group directories
+	# mkdir /home/{admin,sales,prod,rmhld}
+5. Change the ownership of the directories to respective groups
+	# chgrp admin /home/admin
+	# chgrp sales /home/sales
+	# chgrp prod /home/prod
+	# chgrp rmhld /home/rmhld
+   Change the permissions of the directories and give full permissions to all
+	# chmod 770 /home/admin
+	# chmod 770 /home/prod
+	# chmod 770 /home/sales
+	# chmod 770 /home/rmhld
+6. Change the user's Group ID, Group Name, Comment and the Home Directory of the users to their respective values specified above.
+	Admin Group:
+	------------
+	1. Know the group id.
+		# grep admin /etc/group
+	2. 
+
+
+
+PART-2
+------                                                                          
+manfcg		-->		Manfcg		-->		/home/manfcg	-->		sudheer, kishore	-->		/home/manfcg/{sudheer,kishore}
+itops			-->		IT Ops		-->		/home/itops		-->		pradeep, kumar		-->		/home/itops/{pradeep,kumar}
+cops			-->		Cust Ops	-->		/home/cops		-->		trahi, vamshi			-->		/home/cops/{trahi,vamshi}
+dist			-->		Dist			-->		/home/dist		-->		ganesh, david			-->		/home/dist/{ganesh,david}
+
+1. Create the groups specified above.
+2. Create the group directories.
+3. Change the group membership of the directories to the name same as the directory (Ex. manfcg directory to manfcg group)
+	Change the permissions of the directories to Group and Others
+	Group should have full permissions and the others do not have any permissions.
+4. Create all the users with the above specified attributes.
+	Comment, Group ID, Group Name, Home Directory
+	Change the password
+5. Verify the users home directory, permissions and ownership by login as the specified user.
+6. Verify the users in all the above groups
+7. Verify all the attributes for the above users.
+
+===========================================================================================
+
+Create a user manually
+----------------------
+
+Pre-requisites: Username, password, homedir
+
+Files to be changed : /etc/password, /etc/shadow
