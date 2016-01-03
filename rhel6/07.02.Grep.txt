@@ -1,0 +1,15 @@
+GREP Practice :
+---------------
+Tasks :
+
+0. Grep the word init from the inittab file
+1. Grep the word System from the file inittab
+2. Grep the word init and grep the word System
+3. Grep the word init and grep the word system case insensitively
+4. Grep the word init and get the line count
+5. List the files in your home directory
+6. List the files in your home directory and display the lines containing root
+7. List the files in your home directory, display the lines containing root and get line count
+8. List the files in your home directory, display the lines which are not containing the word root
+9. List the files in your home directory, display the lines which are not containing the word root and get the line count
+10. List the files in your home directory, display the lines containing the word omkar and highlight it
