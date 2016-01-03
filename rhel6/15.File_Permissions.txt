@@ -1,0 +1,16 @@
+File and directory permissions:
+-------------------------------
+For every file or directory we have 3 things to take care about for accessing that.
+ 1. Permissions
+ 2. Ownership or Owner of the file
+ 3. Group who have access to the file
+
+Permissions:
+ Every file's or directory's permissions contains 3 octates
+  1. Permissions for the Owner
+  2. Permissions for the Owner's group
+  3. Permissions for other users.
+  
+ To change the permissions of a file or directory we need to use "chmod" command
+ To change the ownership of a file or directory we need to use "chown" command
+ To change the owner's group of a file or directory we need to use "chgrp" command
