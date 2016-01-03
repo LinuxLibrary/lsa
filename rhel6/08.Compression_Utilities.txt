@@ -1,0 +1,48 @@
+Compression Utilities
+---------------------
+
+1. GZIP
+2. BZIP2
+3. TAR
+
+Compressing a file :
+--------------------
+	Using GZIP	:	gzip <file_name>
+	Using BZIP2	:	bzip2 <file_name>
+	
+Decompressing a file :
+--------------------
+	Using GZIP 	: 	1. gunzip <gzip_file_name>
+					2. gzip -d <gzip_file_name>
+				 
+	Using BZIP2 :	1. bunzip2 <bzip_file_name>
+					2. bzip2 -d <bzip_file_name>
+					
+Using TAR (Tape Archive) :
+--------------------------
+
+Usage : tar options <tar_file_name> <list_of_files_or_directories_to_compress>
+	TAR Options:
+	c	-	Create archive
+	t	- 	List archive
+	f	-	File mode
+	v	-	Verbose or print the details of archive execution
+	x	-	Extract an archive
+
+1. Current Path :
+	
+	i. Create archive:
+	
+	cd /tmp
+	tar -cvf testarchive.tar .
+	
+	ii. List or view file/directories in an archive
+	
+	tar -tf testarchive.tar
+	
+	iii. Extract files/directories from an archive
+	
+	tar -xvf testarchive.tar 
+	
+	
+	
