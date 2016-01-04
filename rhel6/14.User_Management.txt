@@ -34,14 +34,14 @@ Options:
 User Creation :
 Groups : 	admin, sales, prod, rmhld, manfcg, itops, cops, distb
 
-GrpName			Comment				GRP Dir					Users						User's home DIR
+GrpName		Comment		GRP Dir			Users			User's home DIR
 --------------------------------------------------------------------------------------------------------------------
 PART-1
 ------
-admin	-->		Admin				-->		/home/admin		-->		arjun, omkar				-->		/home/admin/{arjun,omkar}
-sales	--> 	Sales		 		--> 	/home/sales		--> 	vijay, prashant			--> 	/home/sales/{vijay,prashant}
-prod	-->		Production	-->		/home/prod		-->		prajet, nikhil			-->		/home/prod/{prajet,nikhil}
-rmhld	-->		RMHld				-->		/home/rmhld		-->		deepak, john				-->		/home/rmhld/(deepak,john)
+admin	-->	Admin	-->	/home/admin	-->	arjun, omkar	-->	/home/admin/{arjun,omkar}
+sales	--> 	Sales	--> 	/home/sales	--> 	vijay, prashant	--> 	/home/sales/{vijay,prashant}
+prod	-->	Production -->	/home/prod	-->	prajet, nikhil	-->	/home/prod/{prajet,nikhil}
+rmhld	-->	RMHld	-->	/home/rmhld	-->	deepak, john	-->	/home/rmhld/(deepak,john)
 
 1. Create the users specified above with default settings
 2. Create password for the users
@@ -104,10 +104,10 @@ Solutions:
 
 PART-2
 ------                                                                          
-manfcg		-->		Manfcg		-->		/home/manfcg	-->		sudheer, kishore	-->		/home/manfcg/{sudheer,kishore}
-itops			-->		IT Ops		-->		/home/itops		-->		pradeep, kumar		-->		/home/itops/{pradeep,kumar}
-cops			-->		Cust Ops	-->		/home/cops		-->		trahi, vamshi			-->		/home/cops/{trahi,vamshi}
-dist			-->		Dist			-->		/home/dist		-->		ganesh, david			-->		/home/dist/{ganesh,david}
+manfcg	-->	Manfcg	-->	/home/manfcg	-->	sudheer, kishore	-->	/home/manfcg/{sudheer,kishore}
+itops	-->	IT Ops	-->	/home/itops	-->	pradeep, kumar		-->	/home/itops/{pradeep,kumar}
+cops	-->	Cust Ops  -->	/home/cops	-->	trahi, vamshi		-->	/home/cops/{trahi,vamshi}
+dist	-->	Dist	-->	/home/dist	-->	ganesh, david		-->		/home/dist/{ganesh,david}
 
 1. Create the groups specified above.
 2. Create the group directories.
@@ -120,12 +120,3 @@ dist			-->		Dist			-->		/home/dist		-->		ganesh, david			-->		/home/dist/{ganesh
 5. Verify the users home directory, permissions and ownership by login as the specified user.
 6. Verify the users in all the above groups
 7. Verify all the attributes for the above users.
-
-===========================================================================================
-
-Create a user manually
-----------------------
-
-Pre-requisites: Username, password, homedir
-
-Files to be changed : /etc/password, /etc/shadow
