@@ -1,0 +1,43 @@
+Create a user manually
+----------------------
+
+Pre-requisites: Username, password, homedir
+
+Files to be changed : /etc/passwd, /etc/shadow
+
+1.	To create a user manually backup your /etc/passwd file.
+	# cp /etc/passwd /etc/passwd.YYYYMMDD
+
+	Add an entry for the new user with Username,UID, GID, HOME_DIR, Login Shell
+	mallik:x:503:503::/home/mallik:/bin/bash
+
+2.	Backup your shadow file and add an entry for the user desired.
+	# cp /etc/shadow /etc/shadow.YYYYMMDD
+	# grub-md5-crypt >> /etc/shadow
+	
+	Give the password and hit return
+	Again repeat the password and hit return.
+	
+	Edit the /etc/shadow file and modify it. You can find output as below.
+	-------------------------------
+	Password:
+	Retype password:
+	$1$2Qg2b$/Kv2YdgcwKSlATV7Pwp/y0
+	-------------------------------
+	
+	Change this to 
+	-------------------------------
+	mallik:$1$2Qg2b$/Kv2YdgcwKSlATV7Pwp/y0:16447:0:99999:7:::
+	-------------------------------
+	
+3. Add this user to a group. Add an entry in /etc/group
+	# vi /etc/group
+	arjun:x:503:arjun,mallik
+	
+4. Create a home directory, change the ownership and permissions.
+	# mkdir /home/mallik
+	# chown mallik:arjun /home/mallik
+	# chmod go-rwx /home/mallik
+	
+5. Login as that user and copy all files from /etc/skel/ to users home directory ~/
+	# cp -prv /etc/skel/.* ~/
