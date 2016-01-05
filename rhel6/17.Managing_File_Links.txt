@@ -1,0 +1,21 @@
+Managing File Links:
+--------------------
+
+Soft Links :
+	1. It will act like a shortcut
+	2. INODE number is different from the file's INODE
+	3. File size is different from original file.
+		Size of Softlink file will be the count of total number of characters of the original file.
+	4. This link will not work if the original file removed.
+	5. Usage : ln -s <Source file or directory name> <Destination>
+	
+Hard Links :
+	1. It is an esact copy of the original file
+	2. INODE number is same as the original file's INODE
+	3. File size is also same as the original file.
+	4. This will remain as is even the original file removed.
+	5. Usage : ln <Source file or directory name> <Destination>
+
+# mkdir -p /u01/java-0.{1..6}.356/bin/
+# ln -s /u01/java-0.1.356 /u01/java
+Verify INODE, Size, Removal
