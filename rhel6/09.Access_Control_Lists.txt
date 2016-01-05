@@ -9,13 +9,22 @@ It has two modes
 	 a. Set or modify permissions	---> (Option -m)
 	 b. Remove permissions			---> (Option -x)
 
+While we are trying to access a file or Directory the access will be checked in the following order.	 
+1. Owner of the File or Directory
+2. Group it belongs to
+3. Permissions set on it
+4. ACL (Access Control List)
+5. ACL permissions can be noticed a follows
+drwxr-xr-x.		<---	No advanced permissions(ACL) are set.
+drwxr-xr-x+		<---	+ symbol notifies that ACL applied on it.
+
 Task 1 : At first we need to enable ACL on the partition which we need to configure.
 	We want to enable ACL for "/" filesystem
 	Step 1 : 
 		# vi /etc/fstab
 			Find the entry for the "/" filesystem and add ",acl" after defaults as like below.
 		Before : UUID=9dbab158-e9c1-401e-b819-9a26cb5bc82a /                       ext4    defaults        1 1
-		After  : UUID=9dbab158-e9c1-401e-b819-9a26cb5bc82a /                       ext4    defaults,acl        1 1
+		After  : UUID=9dbab158-e9c1-401e-b819-9a26cb5bc82a /                       ext4    defaults,acl    1 1
 		Save and quit the file.
 		
 	Step 2 :
@@ -50,8 +59,8 @@ Task 2 : Modify or remove perms on Files or directories
 	 3. Create a group and add arjun, omkar to that group. Provide full permissions for everyone(User, Group, Others). This group should only able to access the file (provide perms through ACL)
 	    a. Create group "aclgroup" and add arjun, omkar to it
 		 # groupadd aclgroup
-		 # usermod -G aclgroup arjun
-		 # usermod -G aclgroup omkar
+		 # usermod -G aclgroup -a arjun
+		 # usermod -G aclgroup -a omkar
 		b. Provide full permissions for everyone(User, Group, Others)
 		 # chmod 666 acltest.txt
 		c. Provide permissions for the group to have read and write perms on it.
