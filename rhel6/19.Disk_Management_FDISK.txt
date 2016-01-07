@@ -1,0 +1,28 @@
+Disk Partitioning in Linux using FDISK :
+----------------------------------------
+
+To list all the list of partitions on all the hdds attached to a machine
+# fdisk -l
+
+To list all the partitions on a specific hdd
+# fdisk -l <Device_name>
+ex : # fdisk -l /dev/sda
+
+Managing partitions on a hdd using FDISK utility:
+-------------------------------------------------
+
+Disk layout:
+	Disk layout contains 3 type of partitions.
+	We can create 4 partitions on a disk according to the type of partitions.
+	
+	-Primary
+	-Extended
+		-Logical
+	
+	According to the above layout we can  create 4 partitions on a disk which is a total of Primary.
+	To overcome this design problem, extended partitions were invented. This trick allows partitioning a primary partition into sub-partitions.	
+	The primary partition thus subdivided is the extended partition; the sub-partitions are logical partitions.
+	They behave like primary partitions, but are created differently.
+	There is no speed difference between them.
+	By using an extended partition you can now have up to 15 partitions per disk.
+	
