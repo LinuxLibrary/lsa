@@ -59,3 +59,5 @@ Tasks:
 	mdadm --manage /dev/md5 --fail /dev/sdb9
   o. cat /proc/mdstat
   p. mdadm --manage /dev/md5 --remove /dev/sdb9
+
+https://raid.wiki.kernel.org/index.php/Linux_Raid
