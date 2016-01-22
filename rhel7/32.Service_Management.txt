@@ -1,0 +1,41 @@
+Service Management in RHEL - 7
+------------------------------
+
+To know in which runlevel we are in 
+# runlevel
+
+Runlevels :
+-----------
+0	:	poweroff.target		(SHUTDOWN)
+1	:	rescue.target		(MAINTENANCE)
+2	:	multi-user.target	(MULTI USER WITHOUT NETWORK)
+3	:	multi-user.target	(MULTI USER WITH NETWORK)
+4	:	multi-user.target	(RESEARCH PURPOSE)
+5	:	graphical.target	(MULTI USER WITH NETWORK & GRAPHICS or GUI)
+6	:	reboot.target		(REBOOT)
+
+To change a runlevel
+# systemctl isolate rescue.target
+
+To change default runlevel
+# systemctl enable <run-level> --force
+
+To check the running services in the runlevel which we are in
+# systemctl list-units --type=target
+
+To enable a specific service for the runlevel we are in
+# systemctl enable <service-name>
+Ex : systemctl enable bluetooth.target
+
+To disable a specific service for the runlevel we are in
+# systemctl disable <service-name>
+Ex : systemctl disable bluetooth.target
+
+To start a specific service
+# systemctl start <service-name>
+
+To stop a specific service
+# systemctl stop <service-name>
+
+To check the status of a specific service
+# systemctl status <service-name>
