@@ -129,6 +129,7 @@ Below is the list of configs to do to complete $1.
 	listen-on port 53 { 127.0.0.1; 192.168.1.110; }; 	---> Provide the Parent domain "linux-library.com". 
 								     My IP is "192.168.1.110"
 	allow-query     { any; };				---> Replace localhost with any.
+	allow-transfer	{ 192.168.1.120; };			---> Provide the IP of the slave machine
 ==================================================================================
 ©3. Edit /var/named/chroot/etc/named.rfc1912.zones and add the Forward and Reverse zones
 	
@@ -161,8 +162,11 @@ Below is the list of configs to do to complete $1.
 		                                        3H )    	; minimum
 
 		@       IN      NS      dev1.linux-library.com.
+		@	IN	NS	prod1.linux-library.com.
 		        IN      A       192.168.1.110
 		dev1    IN      A       192.168.1.110
+		prod1	IN	A	192.168.1.120
+		asia	IN	CNAME	prod1.linux-library.com.
 ==================================================================================
 ©5. Create reverse lookup zone file and add the details of the parent domain.
 	Go to /var/named/chroot/var/named/ and make a copy of "named.loopback" to our forward lookup zone file 
@@ -178,12 +182,47 @@ Below is the list of configs to do to complete $1.
 							1W      	; expire
 							3H )    	; minimum
 		@       IN      NS      dev1.linux-library.com.
+		@	IN	NS	prod1.linux-library.com.
 						A       192.168.1.110
 						PTR     linux-library.com.
 		110     IN      PTR     dev1.linux-library.com.
+		120	IN	PTR	prod1.linux-library.com.
+		asia	IN	CNAME	prod1.linux-library.com.
 ==================================================================================
 
+©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©
+© $2 : Configure Child (PROD1) Domain  ©
+©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©©
+==================================================================================
+©1. Get the config files ready. To do this please follow the steps provided in 
+    $1.©1
+==================================================================================
+©2. Edit /var/named/chroot/etc/named.conf (DNS Configuration main file) to add the IP.
+        Go to the "options" section, locate the following lines
 
+        # vi /var/named/chroot/etc/named.conf
+        listen-on port 53 { 192.168.1.120; };       
+        allow-query     { any; };
+==================================================================================
+©3. Edit /var/named/chroot/etc/named.rfc1912.zones and add the Forward and Reverse zones
+
+        Add a zone section as below which provides the details of the forward lookup zone file.
+                zone "linux-library.com" IN {
+                        type slave;
+                        file "slaves/linux-library.com.forward.zone";
+                        allow-update { none; };
+                };
+
+        Add a zone section as below which provides the details of the reverse lookup zone file.
+                zone "1.168.192.in-addr.arpa" IN {
+                        type slave;
+                        file "slaves/linux-library.com.reverse.zone";
+                        allow-update { none; };
+                };
+==================================================================================
+©4. Keep in mind that no need of creating the zone files as the zone files will be
+    replicated from the server automatically.
+==================================================================================
 
 BALANCE TASKS WILL BE COMING SOON...................................
 
