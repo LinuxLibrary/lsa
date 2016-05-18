@@ -129,6 +129,8 @@ Below is the list of configs to do to complete $1.
 	listen-on port 53 { 127.0.0.1; 192.168.1.110; }; 	---> Provide the Parent domain "linux-library.com". 
 								     My IP is "192.168.1.110"
 	allow-query     { any; };				---> Replace localhost with any.
+==================================================================================
+©3. Edit /var/named/chroot/etc/named.rfc1912.zones and add the Forward and Reverse zones
 	
 	Add a zone section as below which provides the details of the forward lookup zone file.
 		zone "linux-library.com" IN {
@@ -137,48 +139,48 @@ Below is the list of configs to do to complete $1.
 			allow-update { none; };
 		};
 			
-		Add a zone section as below which provides the details of the reverse lookup zone file.
-			zone "1.168.192.in-addr.arpa" IN {
-				type master;
-				file "linux-library.com.reverse.zone";
-				allow-update { none; };
-			};
+	Add a zone section as below which provides the details of the reverse lookup zone file.
+		zone "1.168.192.in-addr.arpa" IN {
+			type master;
+			file "linux-library.com.reverse.zone";
+			allow-update { none; };
+		};
 ==================================================================================
-©3. Create forward lookup zone file and add the details of the parent domain.
+©4. Create forward lookup zone file and add the details of the parent domain.
 	Go to /var/named/chroot/var/named/ and make a copy of "named.localhost" to our forward lookup zone file 
-	"linux-library.com.forward.zone" and modify that as per our choice.
+	"linux-library.com.for.zone" and modify that as per our choice.
 		
-	# cp -prv /var/named/chroot/var/named/named.localhost /var/named/chroot/var/named/linux-library.com.forward.zone
-	# vi /var/named/chroot/var/named/linux-library.com.forward.zone
+	# cp -prv /var/named/chroot/var/named/named.localhost /var/named/chroot/var/named/linux-library.com.for.zone
+	# vi /var/named/chroot/var/named/linux-library.com.for.zone
 		$TTL 1D
-		$TTL 1D
-		@       IN SOA   linux-library.com. root.linux-library.com. (
-					                2015092901      ; serial
-		                                        1D      ; refresh
-		                                        1H      ; retry
-		                                        1W      ; expire
-		                                        3H )    ; minimum
-		@               NS      dev1.linux-library.com.
-		        IN      A       127.0.0.1
+		@       IN 	SOA   linux-library.com. root.linux-library.com. (
+					                2016051801      ; serial
+		                                        1D      	; refresh
+		                                        1H      	; retry
+		                                        1W      	; expire
+		                                        3H )    	; minimum
+
+		@       IN      NS      dev1.linux-library.com.
+		        IN      A       192.168.1.110
 		dev1    IN      A       192.168.1.110
 ==================================================================================
-©4. Create reverse lookup zone file and add the details of the parent domain.
+©5. Create reverse lookup zone file and add the details of the parent domain.
 	Go to /var/named/chroot/var/named/ and make a copy of "named.loopback" to our forward lookup zone file 
 	"linux-library.com.reverse.zone" and modify that as per our choice.
 		
 	# cp -prv /var/named/chroot/var/named/named.loopback /var/named/chroot/var/named/linux-library.com.reverse.zone
 	# vi /var/named/chroot/var/named/linux-library.com.reverse.zone
 		$TTL 1D
-		@       IN SOA  linux-library.com. root.linux-library.com. (
-							2015092901      ; serial
-							1D      ; refresh
-							1H      ; retry
-							1W      ; expire
-							3H )    ; minimum
-		@               NS      dev1.linux-library.com.
-						A       127.0.0.1
-						PTR     localhost.
-		110             PTR     dev1.
+		@       IN 	SOA  linux-library.com. root.linux-library.com. (
+							2015061801      ; serial
+							1D      	; refresh
+							1H      	; retry
+							1W      	; expire
+							3H )    	; minimum
+		@       IN      NS      dev1.linux-library.com.
+						A       192.168.1.110
+						PTR     linux-library.com.
+		110     IN      PTR     dev1.linux-library.com.
 ==================================================================================
 
 
