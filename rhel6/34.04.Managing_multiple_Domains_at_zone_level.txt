@@ -13,9 +13,7 @@ IP Details of the sites :
 192.168.1.110	:	linux-library.com		dev1.linux-library.com
 192.168.1.120	:	asia.linux-library.com		prod01.linux-library.com
 192.168.1.121	:	india.linux-library.com		rnd01.linux-library.com
-192.168.1.122	:	brm.linux-library.com		prod02.linux-library.com
 192.168.1.130	:	us.linux-library.com		cops01.linux-library.com
-192.168.1.140	:	uk.linux-library.com		cops02.linux-library.com
 192.168.1.150	:	aus.linux-library.com		mfg01.linux-library.com
 
 
@@ -70,15 +68,15 @@ $$$$$$$$
 		"Asia, US, UK, Australia"
 $0	:	Get your machine ready with all the packages needed.
 	$0.00	:	Verify all the packages installed.
-$1	:	Create a the parent domain, its zones both Forward(FWD) and Reverse(REV).
+$1	:	Create a the parent domain (linux-library.com) on "dev1", its zones both Forward(FWD) and Reverse(REV).
 	$1.01	:	Verify and ensure that the parent domain resolution.
-$2	:	Create the child domain "asia" with its zones both FWD & REV.
+$2	:	Create the child domain (asia.linux-library.com) on "prod1" with its zones both FWD & REV.
 	$2.01	:	Verify and ensure that the above child domain resolution.
-$3	:	Create the child domain "us"  with its zones both FWD & REV.
+$3	:	Create the child domain (india.linux-library.com) on "rnd1"  with its zones both FWD & REV.
 	$3.01	:	Verify and ensure that the above child domain resolution.
-$4	:	Create the child domain "uk" with its zones both FWD & REV.
+$4	:	Create the child domain (us.linux-library.com) on "cops1" with its zones both FWD & REV.
 	$4.01	:	Verify and ensure that the above child domain resolution.
-$5	:	Create the child domain "aus" with its zones both FWD & REV.
+$5	:	Create the child domain (aus.linux-library.com) on "mfg1" with its zones both FWD & REV.
 	$5.01	:	Verify and ensure that the above child domain resolution.
 
 
