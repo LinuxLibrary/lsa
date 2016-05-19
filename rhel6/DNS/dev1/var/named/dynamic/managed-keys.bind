@@ -1,0 +1,29 @@
+$ORIGIN .
+$TTL 0	; 0 seconds
+@			IN SOA	. . (
+				10         ; serial
+				0          ; refresh (0 seconds)
+				0          ; retry (0 seconds)
+				0          ; expire (0 seconds)
+				0          ; minimum (0 seconds)
+				)
+			KEYDATA	20160519033544 19700101000000 19700101000000 257 3 8 (
+				AwEAAagAIKlVZrpC6Ia7gEzahOR+9W29euxhJhVVLOyQ
+				bSEW0O8gcCjFFVQUTf6v58fLjwBd0YI0EzrAcQqBGCzh
+				/RStIoO8g0NfnfL2MTJRkxoXbfDaUeVPQuYEhg37NZWA
+				JQ9VnMVDxP/VHL496M/QZxkjf5/Efucp2gaDX6RS6CXp
+				oY68LsvPVjR0ZSwzz1apAzvN9dlzEheX7ICJBBtuA6G3
+				LQpzW5hOA2hzCTMjJPJ8LbqF6dsV6DoBQzgul0sGIcGO
+				Yl7OyQdXfZ57relSQageu+ipAdTTJ25AsRTAoub8ONGc
+				LmqrAmRLKBP1dfwhYB4N7knNnulqQxA+Uk1ihz0=
+				) ; key id = 19036
+dlv.isc.org		KEYDATA	20160519033544 19700101000000 19700101000000 257 3 5 (
+				BEAAAAPHMu/5onzrEE7z1egmhg/WPO0+juoZrW3euWEn
+				4MxDCE1+lLy2brhQv5rN32RKtMzX6Mj70jdzeND4XknW
+				58dnJNPCxn8+jAGl2FZLK8t+1uq4W+nnA3qO2+DL+k6B
+				D4mewMLbIYFwe0PG73Te9fZ2kJb56dhgMde5ymX4BI/o
+				Q+cAK50/xvJv00Frf8kw6ucMTwFlgPe+jnGxPPEmHAte
+				/URkY62ZfkLoBAADLHQ9IrS2tryAe7mbBZVcOwIeU/Rw
+				/mRx/vwwMCTgNboMQKtUdvNXDrYJDSHZws3xiRXF1Rf+
+				al9UmZfSav/4NWLKjHzpT59k/VStTDN0YUuWrBNh
+				) ; key id = 19297

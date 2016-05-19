@@ -1,0 +1,17 @@
+$ORIGIN .
+$TTL 86400	; 1 day
+1.168.192.in-addr.arpa	IN SOA	linux-library.com. root.linux-library.com. (
+				2016051803 ; serial
+				86400      ; refresh (1 day)
+				3600       ; retry (1 hour)
+				604800     ; expire (1 week)
+				10800      ; minimum (3 hours)
+				)
+			NS	dev1.linux-library.com.
+			NS	prod1.linux-library.com.
+			A	192.168.1.110
+			PTR	linux-library.com.
+$ORIGIN 1.168.192.in-addr.arpa.
+110			PTR	dev1.
+120			PTR	prod1.
+asia			CNAME	prod1.

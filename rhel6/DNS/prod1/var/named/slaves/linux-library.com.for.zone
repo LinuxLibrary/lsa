@@ -1,0 +1,16 @@
+$ORIGIN .
+$TTL 86400	; 1 day
+linux-library.com	IN SOA	linux-library.com. root.linux-library.com. (
+				2016051803 ; serial
+				86400      ; refresh (1 day)
+				3600       ; retry (1 hour)
+				604800     ; expire (1 week)
+				10800      ; minimum (3 hours)
+				)
+			NS	dev1.linux-library.com.
+			NS	prod1.linux-library.com.
+			A	192.168.1.110
+$ORIGIN linux-library.com.
+asia			CNAME	prod1
+dev1			A	192.168.1.110
+prod1			A	192.168.1.120

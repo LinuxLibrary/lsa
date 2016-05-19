@@ -1,0 +1,14 @@
+$TTL 86400
+@	IN 	SOA	linux-library.com. root.linux-library.com. (
+					2016051803	; serial
+					1D		; refresh
+					1H		; retry
+					1W		; expire
+					3H )		; minimum
+
+@	IN	NS	dev1.linux-library.com.
+@	IN	NS	prod1.linux-library.com.
+		A	192.168.1.110
+dev1	IN	A	192.168.1.110
+prod1	IN	A	192.168.1.120
+asia	IN	CNAME	prod1.linux-library.com.
