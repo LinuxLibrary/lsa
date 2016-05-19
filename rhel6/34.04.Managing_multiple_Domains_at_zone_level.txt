@@ -65,7 +65,7 @@ $$$$$$$$
 $ TASK $
 $$$$$$$$
 @!	:	Assume we have a main parent domain "linux-library.com". Also we have some child domains in 
-		"Asia, US, UK, Australia"
+		"Asia, India, US, Australia"
 $0	:	Get your machine ready with all the packages needed.
 	$0.00	:	Verify all the packages installed.
 $1	:	Create a the parent domain (linux-library.com) on "dev1", its zones both Forward(FWD) and Reverse(REV).
@@ -222,8 +222,7 @@ Below is the list of configs to do to complete $1.
     replicated from the server automatically.
 ==================================================================================
 
-BALANCE TASKS WILL BE COMING SOON...................................
-
+As like the configuration for PROD1 we can go ahead with the remaining configs.
 
 ----------------------------------------
 Explanation of symbols used in this doc.
