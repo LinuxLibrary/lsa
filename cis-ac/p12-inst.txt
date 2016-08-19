@@ -1,0 +1,18 @@
+root@ele-64-dev2:/home/arjun/Downloads# openssl pkcs12 -in asrinivas%2540spscommerce.com.p12 -nocerts -out asnivas.key^C
+root@ele-64-dev2:/home/arjun/Downloads# openssl rsa -in asnivas.key -out asnivas.decrt.key^C
+root@ele-64-dev2:/home/arjun/Downloads# openssl pkcs12 -in asrinivas%2540spscommerce.com.p12 -clcerts -nokeys -out asnivas.pem
+root@ele-64-dev2:/home/arjun/Downloads# openssl rsa -in asnivas.key -out asnivas.crt
+Enter pass phrase for asnivas.key:
+writing RSA key
+root@ele-64-dev2:/home/arjun/Downloads# openssl x509 -in asnivas.pem >> asnivas.crt
+root@ele-64-dev2:/home/arjun/Downloads# cp -prv asnivas.crt /usr/local/share/ca-certificates/
+‘asnivas.crt’ -> ‘/usr/local/share/ca-certificates/asnivas.crt’
+root@ele-64-dev2:/home/arjun/Downloads# update-ca-certificates
+Updating certificates in /etc/ssl/certs... 3 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d....done.
+
+t@ele-64-dev2:/home/arjun/Downloads# openssl s_client -connect hq.spscommerce.com:443 -CApath /etc/ssl/certs/
+CONNECTED(00000003)
+
+
+
