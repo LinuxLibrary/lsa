@@ -1,0 +1,16 @@
+How to list all the files with ACL permissions enabled?
+getfacl -R -s -p <PATH>
+Ex: [root@station1 ~]# getfacl -R -s -p / | grep file
+# file: //var/run/cups/certs/0
+# file: //home/omkar/test.txt
+# file: //dev/dmmidi
+# file: //dev/midi
+# file: //dev/snd/controlC0
+# file: //dev/snd/pcmC0D0c
+# file: //dev/snd/pcmC0D0p
+# file: //dev/snd/pcmC0D1p
+# file: //dev/snd/midiC0D0
+# file: //dev/snd/seq
+# file: //dev/snd/timer
+# file: //dev/sr0
+# file: //root/acltest/test2.txt
